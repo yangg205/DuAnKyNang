@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      water bottle crumpled_0: -6967085287580285307
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

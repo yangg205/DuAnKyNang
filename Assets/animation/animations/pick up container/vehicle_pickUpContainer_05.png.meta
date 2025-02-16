@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      vehicle_pickUpContainer_05_0: -6241377986591540754
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
