@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      rusty sheet metal tile blue 16x16 1_0: -5130482232940180054
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

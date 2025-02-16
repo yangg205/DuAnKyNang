@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      cracked paint tile 16x16 2_0: 5555269387963388639
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
