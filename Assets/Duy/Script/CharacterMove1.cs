@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CharacterMove : MonoBehaviour
+public class CharacterMove1 : MonoBehaviour
 {
     public Vector2 targetPosition;  // Vị trí mà nhân vật di chuyển tới
     public float speed = 3f;        // Tốc độ di chuyển của nhân vật
