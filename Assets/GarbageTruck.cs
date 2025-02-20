@@ -161,6 +161,13 @@ public class GarbageTruck : MonoBehaviour
     // Xử lý va chạm với rác
     private void OnTriggerEnter2D(Collider2D other)
     {
+        // Nếu đã đủ rác, bỏ qua việc xử lý va chạm
+        if (currentTrashCount >= trashCapacity)
+        {
+            Debug.Log("Xe đã đầy rác, không xử lý va chạm thêm nữa.");
+            return;
+        }
+
         if (other.CompareTag("Trash")) // Kiểm tra nếu là rác
         {
             Debug.Log("Xe đã va chạm với rác!");
@@ -176,6 +183,7 @@ public class GarbageTruck : MonoBehaviour
             }
         }
     }
+
 
     // Thêm rác vào xe
     public void AddTrashToTruck(GameObject trashItem)
