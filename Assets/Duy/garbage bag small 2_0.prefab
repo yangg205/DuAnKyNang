@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 4438186055145290208}
   - component: {fileID: 8904918533045119486}
   - component: {fileID: 3656811215995361106}
-  - component: {fileID: -5068843281357039294}
+  - component: {fileID: 1992111573144090202}
   m_Layer: 0
   m_Name: garbage bag small 2_0
-  m_TagString: Untagged
+  m_TagString: Trash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.42, y: 2.4317062, z: 0}
-  m_LocalScale: {x: 4.2394323, y: 4.2394323, z: 4.2394323}
+  m_LocalScale: {x: 3.4378, y: 3.4378, z: 3.4378}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -135,7 +135,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.08, y: 0.1}
   m_EdgeRadius: 0
---- !u!114 &-5068843281357039294
+--- !u!114 &1992111573144090202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,4 +147,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6632a80ed8a0bbf42918287a97fee84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  garbageTruck: {fileID: 0}
+  trashType: "R\xE1c T\u1ED5ng H\u1EE3p"

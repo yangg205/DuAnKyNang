@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro; // Sử dụng TextMeshPro
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,31 +12,34 @@ public class GarbageTruck : MonoBehaviour
     public Button goToLandfillButton; // Nút "Đi vào bãi rác"
     public ParticleSystem smokeEffect; // Particle System cho khói
     public Animator truckAnimator; // Animator của xe
+    public AudioSource engineStartSound; // Tham chiếu đến âm thanh khởi động
+    public TextMeshProUGUI trashCountText; // TMP Text hiển thị số lượng rác
     public float moveSpeed = 5f; // Tốc độ xe chạy
     public int trashCapacity = 10; // Số lượng rác tối đa
 
-    private int currentTrashCount = 0;
-    private bool isMoving = false;
-    private bool isEngineRunning = false;
-    private Transform currentTarget;
-    private bool isWaiting = false;
+    private int currentTrashCount = 0; // Số lượng rác hiện tại
+    private bool isMoving = false; // Trạng thái di chuyển
+    private bool isEngineRunning = false; // Trạng thái động cơ
+    private Transform currentTarget; // Mục tiêu hiện tại
+    private bool isWaiting = false; // Trạng thái chờ
 
     private void Start()
     {
-        // Gán hành động cho button trực tiếp từ mã
-        goToLandfillButton.onClick.AddListener(MoveToLandfill);
+        goToLandfillButton.onClick.AddListener(MoveToLandfill); // Gắn sự kiện cho nút
 
-        // Tắt tất cả animation và particle khi bắt đầu game
-        StopEngineSequence();
-        SetTarget(trashCollectPoint);
+        StopEngineSequence(); // Tắt khói và động cơ ban đầu
+        SetTarget(trashCollectPoint); // Mục tiêu ban đầu là vị trí lấy rác
+        UpdateTrashCountText(); // Cập nhật hiển thị số rác
     }
 
     private void Update()
     {
         if (isMoving && currentTarget != null)
         {
+            // Di chuyển xe tới mục tiêu
             transform.position = Vector2.MoveTowards(transform.position, currentTarget.position, moveSpeed * Time.deltaTime);
 
+            // Khi đến mục tiêu
             if (Vector2.Distance(transform.position, currentTarget.position) <= 0.1f)
             {
                 if (currentTarget == trashCollectPoint)
@@ -64,9 +68,7 @@ public class GarbageTruck : MonoBehaviour
     {
         isMoving = false;
         Debug.Log("Xe đã đến điểm đích.");
-
-        // Hiện nút đi vào bãi rác
-        goToLandfillButton.gameObject.SetActive(true);
+        goToLandfillButton.gameObject.SetActive(true); // Hiển thị nút "Đi vào bãi rác"
     }
 
     private void HandleLandfillArrival()
@@ -86,16 +88,12 @@ public class GarbageTruck : MonoBehaviour
         SetTarget(destinationPoint);
         isMoving = true;
         Debug.Log("Xe bắt đầu di chuyển đến đích.");
-        StartEngineSequence(); // Bắt đầu engine và particle khi di chuyển
+        StartEngineSequence();
     }
 
-    // Gọi MoveToLandfill khi bấm button
     public void MoveToLandfill()
     {
-        // Ẩn nút đi vào bãi rác
-        goToLandfillButton.gameObject.SetActive(false);
-
-        // Tiến hành di chuyển đến bãi rác mỗi lần bấm
+        goToLandfillButton.gameObject.SetActive(false); // Ẩn nút
         SetTarget(landfillPoint);
         isMoving = true;
         Debug.Log("Xe đang di chuyển vào bãi rác...");
@@ -106,23 +104,17 @@ public class GarbageTruck : MonoBehaviour
         if (!isEngineRunning)
         {
             isEngineRunning = true;
-            if (truckAnimator != null)
-            {
-                truckAnimator.SetTrigger("StartEngine"); // Gọi trigger "StartEngine"
-            }
 
-            ToggleSmokeEffect(true); // Bật particle khi bắt đầu di chuyển
+            if (engineStartSound != null) engineStartSound.Play();
+            if (truckAnimator != null) truckAnimator.SetTrigger("StartEngine");
+            ToggleSmokeEffect(true);
         }
     }
 
     private void StopEngineSequence()
     {
-        if (truckAnimator != null)
-        {
-            truckAnimator.SetTrigger("StopEngine"); // Gọi trigger "StopEngine"
-        }
-
-        ToggleSmokeEffect(false); // Tắt particle khi xe dừng
+        if (truckAnimator != null) truckAnimator.SetTrigger("StopEngine");
+        ToggleSmokeEffect(false);
         isEngineRunning = false;
     }
 
@@ -135,16 +127,14 @@ public class GarbageTruck : MonoBehaviour
     {
         if (smokeEffect != null)
         {
-            if (isActive)
-                smokeEffect.Play();
-            else
-                smokeEffect.Stop();
+            if (isActive) smokeEffect.Play();
+            else smokeEffect.Stop();
         }
     }
 
     private void SpawnNewTruck()
     {
-        GameObject newTruck = Instantiate(gameObject, spawnPoint.position, spawnPoint.rotation); // Tạo xe mới ngoài map
+        GameObject newTruck = Instantiate(gameObject, spawnPoint.position, spawnPoint.rotation);
         GarbageTruck newTruckScript = newTruck.GetComponent<GarbageTruck>();
         if (newTruckScript != null)
         {
@@ -158,42 +148,35 @@ public class GarbageTruck : MonoBehaviour
         isMoving = true;
     }
 
-    // Xử lý va chạm với rác
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Nếu đã đủ rác, bỏ qua việc xử lý va chạm
         if (currentTrashCount >= trashCapacity)
         {
             Debug.Log("Xe đã đầy rác, không xử lý va chạm thêm nữa.");
             return;
         }
 
-        if (other.CompareTag("Trash")) // Kiểm tra nếu là rác
+        if (other.CompareTag("Trash"))
         {
             Debug.Log("Xe đã va chạm với rác!");
 
             TrashItem trashItem = other.GetComponent<TrashItem>();
             if (trashItem != null)
             {
-                // Thêm rác vào xe
-                AddTrashToTruck(other.gameObject);
-
-                // Xóa rác khỏi màn hình ngay lập tức
+                AddTrashToTruck();
                 Destroy(other.gameObject);
             }
         }
     }
 
-
-    // Thêm rác vào xe
-    public void AddTrashToTruck(GameObject trashItem)
+    public void AddTrashToTruck()
     {
         if (currentTrashCount < trashCapacity)
         {
             currentTrashCount++;
-            Debug.Log("Rác đã được thả vào xe. Số lượng rác hiện tại: " + currentTrashCount);
+            Debug.Log($"Rác đã được thêm vào xe. Số lượng hiện tại: {currentTrashCount}/{trashCapacity}");
+            UpdateTrashCountText();
 
-            // Nếu xe đã đủ rác, bắt đầu di chuyển đến đích
             if (currentTrashCount >= trashCapacity && !isMoving)
             {
                 StartCoroutine(WaitBeforeMoving());
@@ -205,14 +188,20 @@ public class GarbageTruck : MonoBehaviour
         }
     }
 
-    // Chờ 4 giây sau khi thu gom đủ rác
     private IEnumerator WaitBeforeMoving()
     {
         isWaiting = true;
-        StartEngineSequence(); // Bật engine và particle
-        yield return new WaitForSeconds(4f); // Chờ 4 giây
-
+        StartEngineSequence();
+        yield return new WaitForSeconds(4f);
         isWaiting = false;
-        StartMovingToDestination(); // Bắt đầu di chuyển sau khi chờ
+        StartMovingToDestination();
+    }
+
+    private void UpdateTrashCountText()
+    {
+        if (trashCountText != null)
+        {
+            trashCountText.text = $"Trash: {currentTrashCount}/{trashCapacity}";
+        }
     }
 }
