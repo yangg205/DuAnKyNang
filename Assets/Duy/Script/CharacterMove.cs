@@ -10,6 +10,8 @@ public class CharacterMove : MonoBehaviour
     private bool isMovingBack = false;  // Biến kiểm tra xem có quay lại vị trí ban đầu không
     public GameObject bagPrefab;  // Prefab túi
     public DoorController doorController;  // Reference đến DoorController
+    public float reappearDelay = 2f; // Thời gian chờ trước khi xuất hiện lại, có thể chỉnh trong Inspector
+    private GameObject bagInstance; // Túi được tạo ra khi di chuyển
 
     private float initialScaleX;  // Lưu giá trị scaleX ban đầu khi đi tới vị trí đích
     private bool canMove = true;  // Kiểm tra xem nhân vật có thể di chuyển không
@@ -50,6 +52,11 @@ public class CharacterMove : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
+            if (bagInstance == null && bagPrefab != null)
+            {
+                bagInstance = Instantiate(bagPrefab, transform.position, Quaternion.identity);
+                bagInstance.transform.parent = transform;  // Gắn vào nhân vật
+            }
             // Flip the character to face the direction of movement if not already flipped
             if (!hasFlipped)
             {
@@ -60,8 +67,8 @@ public class CharacterMove : MonoBehaviour
         else
         {
             isMovingBack = true;  // Sau khi tới đích, bắt đầu quay lại vị trí ban đầu
-            PlaceBag();  // Đặt túi khi nhân vật đến vị trí đích
-            doorController.OpenDoor();  // Mở cửa khi nhân vật đến vị trí đích
+            ReleaseBag();  // Thả túi ra khỏi nhân vật
+            doorController.OpenDoor();
         }
     }
 
@@ -87,15 +94,16 @@ public class CharacterMove : MonoBehaviour
             doorController.CloseDoor();  // Đóng cửa khi nhân vật quay lại
 
             // Start coroutine from doorController to make character reappear after 2 seconds
-            doorController.StartCoroutine(ReappearAfterDelay(2f));
+            doorController.StartCoroutine(ReappearAfterDelay(reappearDelay)); // Dùng biến reappearDelay
         }
     }
 
-    void PlaceBag()
+    void ReleaseBag()
     {
-        if (bagPrefab != null)
+        if (bagInstance != null)
         {
-            Instantiate(bagPrefab, targetPosition, Quaternion.identity);
+            bagInstance.transform.parent = null;  // Thả túi ra khỏi nhân vật
+            bagInstance = null;  // Xóa reference để lần sau tạo lại
         }
     }
 
@@ -119,10 +127,10 @@ public class CharacterMove : MonoBehaviour
     // Coroutine to make the character reappear after a delay
     private IEnumerator ReappearAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);  // Wait for the specified delay
-        gameObject.SetActive(true);  // Make the character appear again
-        canMove = true;  // Allow the character to start moving again
-        hasFlipped = false;  // Reset flip state for new movement
-        StartMovement();  // Start the movement process again
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(true);
+        canMove = true;
+        hasFlipped = false;
+        StartMovement();
     }
 }
