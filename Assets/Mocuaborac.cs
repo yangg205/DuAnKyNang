@@ -30,7 +30,7 @@ public class Mocuaborac : MonoBehaviour
         }
         else
         {
-            Debug.Log("Cửa không mở lần này.");
+            //Debug.Log("Cửa không mở lần này.");
         }
     }
 
@@ -38,7 +38,7 @@ public class Mocuaborac : MonoBehaviour
     private bool ShouldOpenDoor()
     {
         float randomValue = Random.Range(0f, 1f); // Random giá trị từ 0 đến 1
-        Debug.Log($"Giá trị random: {randomValue}, cần nhỏ hơn {openDoorChance} để mở cửa.");
+        //Debug.Log($"Giá trị random: {randomValue}, cần nhỏ hơn {openDoorChance} để mở cửa.");
         return randomValue <= openDoorChance; // So sánh với tỉ lệ mở cửa
     }
 
@@ -49,11 +49,11 @@ public class Mocuaborac : MonoBehaviour
         {
             animator.SetTrigger("mo"); // Kích hoạt trigger "mo"
             isDoorOpened = true; // Đánh dấu trạng thái cửa đã mở
-            Debug.Log("Cửa đang mở...");
+            //Debug.Log("Cửa đang mở...");
         }
         else
         {
-            Debug.LogWarning("Animator chưa được gán!");
+            //Debug.LogWarning("Animator chưa được gán!");
         }
     }
 
@@ -63,11 +63,11 @@ public class Mocuaborac : MonoBehaviour
         if (trashPrefab != null && spawnPoint != null)
         {
             Instantiate(trashPrefab, spawnPoint.position, spawnPoint.rotation); // Tạo rác
-            Debug.Log("Đã tạo rác trước nhà!");
+            //Debug.Log("Đã tạo rác trước nhà!");
         }
         else
         {
-            Debug.LogWarning("Trash Prefab hoặc Spawn Point chưa được thiết lập!");
+            //Debug.LogWarning("Trash Prefab hoặc Spawn Point chưa được thiết lập!");
         }
     }
 
@@ -78,11 +78,11 @@ public class Mocuaborac : MonoBehaviour
         {
             animator.SetTrigger("dong"); // Kích hoạt trigger "dong"
             isDoorOpened = false; // Đặt trạng thái về ban đầu
-            Debug.Log("Cửa đã đóng.");
+            //Debug.Log("Cửa đã đóng.");
         }
         else
         {
-            Debug.LogWarning("Animator chưa được gán!");
+            //Debug.LogWarning("Animator chưa được gán!");
         }
     }
 }
