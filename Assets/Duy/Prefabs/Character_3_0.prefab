@@ -125,6 +125,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPosition: {x: 1.933433, y: 1.48}
   speed: 2
-  bagPrefab: {fileID: 6241101702695202790, guid: d8ddb44064805cd4b853cdc9de661492, type: 3}
+  bagPrefabs:
+  - {fileID: 3746138424972644207, guid: 58155aad4ff9bcc48a715d93dec5903a, type: 3}
+  - {fileID: 5812286837181700165, guid: dbc51837a7998744988054075d0f5ffe, type: 3}
+  - {fileID: 6803787464580719418, guid: 84b8ff9e1d518a24ab0268d6aafd2027, type: 3}
+  - {fileID: 1837214235764187585, guid: 977501070077f9c46bd1c8f75d63b068, type: 3}
+  - {fileID: 3746138424972644207, guid: 58155aad4ff9bcc48a715d93dec5903a, type: 3}
   doorController: {fileID: 0}
   reappearDelay: 7

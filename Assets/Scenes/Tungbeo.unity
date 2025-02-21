@@ -12181,8 +12181,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 3875a4ac2a3e38a479a4a52edf502368, type: 3}
-  m_Resource: {fileID: 8300000, guid: 3875a4ac2a3e38a479a4a52edf502368, type: 3}
+  m_audioClip: {fileID: 8300000, guid: aaef2c0ca158ba941adb72918caeee93, type: 3}
+  m_Resource: {fileID: 8300000, guid: aaef2c0ca158ba941adb72918caeee93, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -12284,7 +12284,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1169657327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12299,6 +12299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeSlider: {fileID: 1384848597}
   totalTime: 30
+  timeOutPanel: {fileID: 0}
 --- !u!4 &1169657328
 Transform:
   m_ObjectHideFlags: 0
@@ -16180,6 +16181,18 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1925907363291675932, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: d5ce326ea14180b46919f7a961408c54, type: 3}
+    - target: {fileID: 1925907363291675932, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d5ce326ea14180b46919f7a961408c54, type: 3}
+    - target: {fileID: 2339036967544084373, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2339036967544084373, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
       propertyPath: spawnPoint
       value: 
@@ -16190,7 +16203,7 @@ PrefabInstance:
       objectReference: {fileID: 1885994331}
     - target: {fileID: 2339036967544084373, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
       propertyPath: trashCapacity
-      value: 15
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2339036967544084373, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
       propertyPath: trashCountText
@@ -16226,7 +16239,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5118420132818071571, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
       propertyPath: m_SortingOrder
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5584301508511634242, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
       propertyPath: m_Name

@@ -1,34 +1,41 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class AutoTimerSlider : MonoBehaviour
 {
-    public Slider timeSlider; // Slider thời gian
-    public float totalTime = 30f; // Tổng thời gian (30 giây)
+    public Slider timeSlider; // Thanh thời gian
+    public float totalTime = 30f; // Thời gian tổng (30 giây)
     private float currentTime; // Thời gian còn lại
+    private bool isGameStopped = false; // Trạng thái dừng game
+    public GameObject timeOutPanel; // Panel hiện khi hết thời gian
 
     private void Start()
     {
-        // Khởi tạo thời gian và slider
         currentTime = totalTime;
         if (timeSlider != null)
         {
-            timeSlider.maxValue = totalTime; // Đặt giá trị tối đa
-            timeSlider.value = totalTime;   // Đặt giá trị ban đầu
+            timeSlider.maxValue = totalTime;
+            timeSlider.value = totalTime;
+        }
+
+        if (timeOutPanel != null)
+        {
+            timeOutPanel.SetActive(false); // Ẩn panel ban đầu
         }
     }
 
     private void Update()
     {
-        if (currentTime > 0)
+        if (!isGameStopped && currentTime > 0)
         {
-            currentTime -= Time.deltaTime; // Giảm thời gian
-            UpdateSlider();                // Cập nhật slider
+            currentTime -= Time.deltaTime;
+            UpdateSlider();
         }
-        else
+        else if (!isGameStopped && currentTime <= 0)
         {
-            currentTime = 0; // Đảm bảo thời gian không âm
-            HandleTimeUp();  // Gọi hành động khi hết giờ
+            currentTime = 0;
+            EndGame();
         }
     }
 
@@ -36,14 +43,22 @@ public class AutoTimerSlider : MonoBehaviour
     {
         if (timeSlider != null)
         {
-            timeSlider.value = currentTime; // Cập nhật giá trị slider
+            timeSlider.value = currentTime;
         }
     }
 
-    private void HandleTimeUp()
+    private void EndGame()
     {
-        Debug.Log("Thời gian đã hết!"); // Xử lý khi thời gian hết
-        // Thêm logic cần thiết khi hết giờ:
-        // Ví dụ: SceneManager.LoadScene("NextScene");
+        Debug.Log("Thời gian đã hết!");
+        isGameStopped = true;
+        if (timeOutPanel != null)
+        {
+            timeOutPanel.SetActive(true); // Hiển thị panel
+        }
+    }
+
+    public void GoToSortingScene()
+    {
+        SceneManager.LoadScene("TrashSortingScene"); // Chuyển sang scene phân loại rác
     }
 }

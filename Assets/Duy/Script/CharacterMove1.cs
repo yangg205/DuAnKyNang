@@ -1,6 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class CharacterMove1 : MonoBehaviour
 {
@@ -8,11 +8,10 @@ public class CharacterMove1 : MonoBehaviour
     public float speed = 3f;        // Tốc độ di chuyển của nhân vật
     private Vector2 initialPosition;  // Vị trí ban đầu
     private bool isMovingBack = false;  // Biến kiểm tra xem có quay lại vị trí ban đầu không
-    public GameObject bagPrefab;  // Prefab túi
+    public List<GameObject> bagPrefabs;  // Danh sách các prefab túi rác
     public DoorController doorController;  // Reference đến DoorController
     public float reappearDelay = 2f; // Thời gian chờ trước khi xuất hiện lại, có thể chỉnh trong Inspector
     private GameObject bagInstance; // Túi được tạo ra khi di chuyển
-
 
     private float initialScaleX;  // Lưu giá trị scaleX ban đầu khi đi tới vị trí đích
     private bool canMove = true;  // Kiểm tra xem nhân vật có thể di chuyển không
@@ -39,7 +38,6 @@ public class CharacterMove1 : MonoBehaviour
 
     public void StartMovement()
     {
-        // Gọi hàm này khi muốn nhân vật bắt đầu di chuyển
         isMovingBack = false;
         canMove = true;  // Ensure movement is allowed
         hasFlipped = false;  // Reset flip state for new movement cycle
@@ -52,9 +50,13 @@ public class CharacterMove1 : MonoBehaviour
         if (distance > 0.1f)
         {
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-            if (bagInstance == null && bagPrefab != null)
+
+            // Tạo túi ngẫu nhiên nếu chưa có
+            if (bagInstance == null && bagPrefabs != null && bagPrefabs.Count > 0)
             {
-                bagInstance = Instantiate(bagPrefab, transform.position, Quaternion.identity);
+                // Chọn ngẫu nhiên một prefab từ danh sách
+                GameObject randomBagPrefab = bagPrefabs[Random.Range(0, bagPrefabs.Count)];
+                bagInstance = Instantiate(randomBagPrefab, transform.position, Quaternion.identity);
                 bagInstance.transform.parent = transform;  // Gắn vào nhân vật
             }
 
