@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TrashSorting : MonoBehaviour
 {
-    public TrashData trashData; // Tham chiếu tới ScriptableObject
-    public Image TrashImage; // UI Image hiển thị rác
-    public TextMeshProUGUI ResultText; // Kết quả phân loại
-    public Button RecycleButton, MixedButton, ElectronicButton; // Các nút phân loại
+    public TrashData trashData;
+    public Image TrashImage;
+    public TextMeshProUGUI ResultText;
+    public TextMeshProUGUI TrashNameText; // Hiển thị tên rác
+    public Button RecycleButton, MixedButton, ElectronicButton;
 
-    private int currentTrashIndex = 0; // Chỉ số rác hiện tại
-    private string currentTrashType; // Loại rác hiện tại
+    private int currentTrashIndex = 0;
+    private string currentTrashType;
 
     private void Start()
     {
@@ -38,11 +40,14 @@ public class TrashSorting : MonoBehaviour
         {
             ResultText.text = "Hoàn thành phân loại rác!";
             TrashImage.enabled = false;
+            TrashNameText.enabled = false;
+            SceneManager.LoadScene("Scene1");
             return;
         }
 
         TrashImage.sprite = trashData.collectedTrashSprites[currentTrashIndex];
         currentTrashType = trashData.collectedTrashTypes[currentTrashIndex];
+        TrashNameText.text = trashData.collectedTrashNames[currentTrashIndex]; // Hiển thị tên rác
         currentTrashIndex++;
         ResultText.text = ""; // Xóa thông báo cũ
     }
@@ -60,6 +65,6 @@ public class TrashSorting : MonoBehaviour
             ResultText.color = Color.red;
         }
 
-        Invoke(nameof(LoadNextTrash), 1f); // Tải rác tiếp theo sau 1 giây
+        Invoke(nameof(LoadNextTrash), 1f);
     }
 }

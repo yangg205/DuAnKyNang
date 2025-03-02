@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GarbageTruck : MonoBehaviour
 {
-    public TrashData trashData; // Tham chiếu tới ScriptableObject
+    public TrashData trashData;
     public Transform trashCollectPoint;
     public Transform landfillPoint;
     public ParticleSystem smokeEffect;
@@ -16,7 +16,7 @@ public class GarbageTruck : MonoBehaviour
     public Slider timeSlider;
     public float moveSpeed = 5f;
     public int trashCapacity = 10;
-    public float maxCollectTime = 10f;
+    public float maxCollectTime = 30f; // Thay đổi thời gian thu gom
 
     private int currentTrashCount = 0;
     private Transform currentTarget;
@@ -29,7 +29,7 @@ public class GarbageTruck : MonoBehaviour
         SetTarget(trashCollectPoint);
         UpdateTrashCountText();
         StartEngineSequence();
-        trashData.ClearData(); // Xóa dữ liệu rác cũ khi bắt đầu
+        trashData.ClearData();
     }
 
     private void Update()
@@ -71,17 +71,18 @@ public class GarbageTruck : MonoBehaviour
             TrashItem trashItem = other.GetComponent<TrashItem>();
             if (trashItem != null)
             {
-                AddTrashToTruck(trashItem.trashType, trashItem.GetComponent<SpriteRenderer>().sprite);
+                AddTrashToTruck(trashItem.trashType, trashItem.GetComponent<SpriteRenderer>().sprite, trashItem.trashName);
                 Destroy(other.gameObject);
             }
         }
     }
 
-    private void AddTrashToTruck(string trashType, Sprite trashSprite)
+    private void AddTrashToTruck(string trashType, Sprite trashSprite, string trashName)
     {
         currentTrashCount++;
-        trashData.collectedTrashTypes.Add(trashType); // Lưu loại rác
-        trashData.collectedTrashSprites.Add(trashSprite); // Lưu hình ảnh rác
+        trashData.collectedTrashTypes.Add(trashType);
+        trashData.collectedTrashSprites.Add(trashSprite);
+        trashData.collectedTrashNames.Add(trashName);
         UpdateTrashCountText();
 
         if (currentTrashCount >= trashCapacity)

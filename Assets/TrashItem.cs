@@ -4,7 +4,7 @@ public class TrashItem : MonoBehaviour
 {
     public string trashType; // Loại rác (ví dụ: "Tái Chế", "Điện Tử", "Tổng Hợp")
     private bool isDragging = false; // Kiểm tra xem có đang kéo thả không
-
+    public string trashName; // Tên cụ thể của rác
     private void OnMouseDown()
     {
         // Bắt đầu kéo thả rác

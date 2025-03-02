@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trashType: "R\xE1c T\u1ED5ng H\u1EE3p"
+  trashName: "Tr\xE1i c\xE2y b\u1ECB h\u01B0"
 --- !u!61 &-9036409747977465182
 BoxCollider2D:
   m_ObjectHideFlags: 0
