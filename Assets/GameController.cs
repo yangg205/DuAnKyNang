@@ -25,7 +25,7 @@ public class GarbageTruckManager : MonoBehaviour
         GarbageTruck truckScript = newTruck.GetComponent<GarbageTruck>();
         if (truckScript != null)
         {
-            truckScript.StartMovingToDestination();
+            //truckScript.StartMovingToDestination();
         }
     }
 }

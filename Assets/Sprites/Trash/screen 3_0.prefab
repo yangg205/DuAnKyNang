@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6632a80ed8a0bbf42918287a97fee84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trashType: "R\xE1c \u0110i\u1EC7n T\u1EED"
+  trashType: "R\u1EA5c \u0110i\u1EC7n T\u1EED"
 --- !u!61 &7664789121474175677
 BoxCollider2D:
   m_ObjectHideFlags: 0
