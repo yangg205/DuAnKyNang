@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Collections;
 
 public class TrashSorting : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class TrashSorting : MonoBehaviour
     public TextMeshProUGUI ResultText;
     public TextMeshProUGUI TrashNameText; // Hiển thị tên rác
     public Button RecycleButton, MixedButton, ElectronicButton;
+    public AudioSource audioSource;
+    public AudioClip audioDung;
+    public AudioClip audioSai;
 
     private int currentTrashIndex = 0;
     private string currentTrashType;
@@ -20,11 +25,17 @@ public class TrashSorting : MonoBehaviour
         {
             Debug.LogError("No trash collected in Scene 1!");
             ResultText.text = "Không có rác để phân loại.";
+            StartCoroutine(Quaylai());
             return;
         }
 
         SetupButtons();
         LoadNextTrash();
+    }
+    private IEnumerator Quaylai()
+    {
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene("Scene1");
     }
 
     private void SetupButtons()
@@ -57,11 +68,13 @@ public class TrashSorting : MonoBehaviour
         if (selectedType == currentTrashType)
         {
             ResultText.text = "Đúng!";
+            audioSource.PlayOneShot(audioDung);
             ResultText.color = Color.green;
         }
         else
         {
             ResultText.text = "Sai!";
+            audioSource.PlayOneShot(audioSai);
             ResultText.color = Color.red;
         }
 

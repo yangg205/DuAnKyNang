@@ -12181,8 +12181,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: aaef2c0ca158ba941adb72918caeee93, type: 3}
-  m_Resource: {fileID: 8300000, guid: aaef2c0ca158ba941adb72918caeee93, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 429a56ee2e05c8c49aa29c9aacc7e816, type: 3}
+  m_Resource: {fileID: 8300000, guid: 429a56ee2e05c8c49aa29c9aacc7e816, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -16211,11 +16211,11 @@ PrefabInstance:
       objectReference: {fileID: 1885994331}
     - target: {fileID: 2339036967544084373, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
       propertyPath: trashCapacity
-      value: 5
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2339036967544084373, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
       propertyPath: maxCollectTime
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2339036967544084373, guid: 867167ad913c5fd47a070d5df236a9d1, type: 3}
       propertyPath: trashCountText

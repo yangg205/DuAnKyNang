@@ -16,20 +16,23 @@ public class GarbageTruck : MonoBehaviour
     public Slider timeSlider;
     public float moveSpeed = 5f;
     public int trashCapacity = 10;
-    public float maxCollectTime = 30f; // Thay đổi thời gian thu gom
+    public float maxCollectTime = 30f;
 
     private int currentTrashCount = 0;
     private Transform currentTarget;
     private bool isMoving = false;
     private float remainingTime;
+    private bool isTruckStarted = false; // Trạng thái theo dõi nếu xe đã khởi động
 
     private void Start()
     {
         remainingTime = maxCollectTime;
         SetTarget(trashCollectPoint);
         UpdateTrashCountText();
-        StartEngineSequence();
         trashData.ClearData();
+
+        // Tắt hiệu ứng khói khi bắt đầu trò chơi
+        ToggleSmokeEffect(false);
     }
 
     private void Update()
@@ -41,7 +44,10 @@ public class GarbageTruck : MonoBehaviour
 
             if (remainingTime <= 0 || currentTrashCount >= trashCapacity)
             {
-                MoveToLandfill();
+                if (!isTruckStarted)
+                {
+                    StartCoroutine(StartTruckAndMoveToLandfill());
+                }
             }
         }
 
@@ -61,7 +67,8 @@ public class GarbageTruck : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (currentTrashCount >= trashCapacity)
+        // Ngăn không cho thu rác nếu đã hết thời gian hoặc xe đã đầy rác
+        if (remainingTime <= 0 || currentTrashCount >= trashCapacity)
         {
             return;
         }
@@ -77,6 +84,7 @@ public class GarbageTruck : MonoBehaviour
         }
     }
 
+
     private void AddTrashToTruck(string trashType, Sprite trashSprite, string trashName)
     {
         currentTrashCount++;
@@ -85,10 +93,24 @@ public class GarbageTruck : MonoBehaviour
         trashData.collectedTrashNames.Add(trashName);
         UpdateTrashCountText();
 
-        if (currentTrashCount >= trashCapacity)
+        if (currentTrashCount >= trashCapacity && !isTruckStarted)
         {
-            MoveToLandfill();
+            StartCoroutine(StartTruckAndMoveToLandfill());
         }
+    }
+
+    private IEnumerator StartTruckAndMoveToLandfill()
+    {
+        isTruckStarted = true;
+
+        // Kích hoạt hiệu ứng khói và âm thanh ngay lập tức
+        StartEngineSequence();
+
+        // Chờ 4 giây trước khi di chuyển
+        yield return new WaitForSeconds(4f);
+
+        // Di chuyển đến bãi đổ rác
+        MoveToLandfill();
     }
 
     private void MoveToLandfill()
@@ -111,13 +133,19 @@ public class GarbageTruck : MonoBehaviour
 
     private void StartEngineSequence()
     {
+        // Phát âm thanh khởi động
         if (engineStartSound != null) engineStartSound.Play();
+
+        // Kích hoạt hoạt ảnh khởi động
         if (truckAnimator != null) truckAnimator.SetTrigger("StartEngine");
+
+        // Bật hiệu ứng khói
         ToggleSmokeEffect(true);
     }
 
     private void StopEngineSequence()
     {
+        // Tắt hiệu ứng khói khi xe dừng
         ToggleSmokeEffect(false);
     }
 
